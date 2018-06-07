@@ -1,0 +1,100 @@
+#VRML V2.0 utf8
+
+Viewpoint {
+  position 8 4 18
+  orientation 0 1 0 0
+  fieldOfView 2.35619
+}
+DEF cart Transform {
+  translation -10 0 0
+  scale 1.5 1 1
+  children Shape {
+    appearance Appearance {
+      material Material {
+        diffuseColor 0 0 0.4
+      }
+    }
+    geometry Box {
+      size 1 1 1
+    }
+  }
+}
+DEF pendulumMass Transform {
+  translation -10 3 0
+  scale 0.4 0.4 0.4
+  children Shape {
+    appearance Appearance {
+      material Material {
+        diffuseColor 1 0 0.2
+      }
+    }
+    geometry Sphere {
+      radius 0.8
+    }
+  }
+}
+DEF rail Transform {
+  scale 200 0.1 0.1
+  children Shape {
+    appearance Appearance {
+      material Material {
+        diffuseColor 0 0 0
+      }
+    }
+    geometry Box {
+      size 1 1 1
+    }
+  }
+}
+Background {
+  skyColor 0 0.43 0.5
+}
+DEF obstacle1 Transform {
+  translation 0 -30 0
+  scale 2 60 2
+  children Shape {
+    appearance Appearance {
+      material Material {
+        specularColor 0.1 0.1 0.1
+        emissiveColor 0.2 0.2 0.2
+        diffuseColor 0.4 0.4 0.4
+        ambientIntensity 0.5
+      }
+    }
+    geometry Box {
+      size 1 1 1
+    }
+  }
+}
+DEF obstacle2 Transform {
+  translation 0 32 0
+  scale 2 60 2
+  children Shape {
+    appearance Appearance {
+      material Material {
+        specularColor 0.1 0.1 0.1
+        emissiveColor 0.2 0.2 0.2
+        diffuseColor 0.4 0.4 0.4
+        ambientIntensity 0.5
+      }
+    }
+    geometry Box {
+      size 1 1 1
+    }
+  }
+}
+DEF rod Transform {
+  translation -10 1 0
+  scale 0.1 1.5 0.1
+  rotation 0 0 -1 0
+  center 0 -1 0
+  children Shape {
+    appearance Appearance {
+      material Material {
+        diffuseColor 0.2 0.2 0.2
+      }
+    }
+    geometry Cylinder {
+    }
+  }
+}
