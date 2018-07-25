@@ -1,13 +1,12 @@
 #VRML V2.0 utf8
 
 Viewpoint {
-  position 8 4 18
+  position 0 0 2
   orientation 0 1 0 0
-  fieldOfView 2.35619
+  fieldOfView 1
 }
 DEF cart Transform {
-  translation -10 0 0
-  scale 1.5 1 1
+  scale 0.3345 0.15 0.2
   children Shape {
     appearance Appearance {
       material Material {
@@ -20,8 +19,8 @@ DEF cart Transform {
   }
 }
 DEF pendulumMass Transform {
-  translation -10 3 0
-  scale 0.4 0.4 0.4
+  translation 0 0.3348 0
+  scale 0.04 0.04 0.04
   children Shape {
     appearance Appearance {
       material Material {
@@ -34,7 +33,7 @@ DEF pendulumMass Transform {
   }
 }
 DEF rail Transform {
-  scale 200 0.1 0.1
+  scale 200 0.005 0.005
   children Shape {
     appearance Appearance {
       material Material {
@@ -50,7 +49,7 @@ Background {
   skyColor 0 0.43 0.5
 }
 DEF obstacle1 Transform {
-  translation 0 -30 0
+  translation 0 -40 0
   scale 2 60 2
   children Shape {
     appearance Appearance {
@@ -67,7 +66,7 @@ DEF obstacle1 Transform {
   }
 }
 DEF obstacle2 Transform {
-  translation 0 32 0
+  translation 0 42 0
   scale 2 60 2
   children Shape {
     appearance Appearance {
@@ -84,8 +83,8 @@ DEF obstacle2 Transform {
   }
 }
 DEF rod Transform {
-  translation -10 1 0
-  scale 0.1 1.5 0.1
+  translation 0 1 0
+  scale 0.01 0.1674 0.01
   rotation 0 0 -1 0
   center 0 -1 0
   children Shape {
