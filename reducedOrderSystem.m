@@ -119,7 +119,7 @@ D = [ 0 ];
 linSys = ss(A,B,C,D);
 
 %setting nr of iterations ( >1 to tune pole placement     )
-iter = 10;     %          ( <1 to compare with linear sim )
+iter = 1;      %          ( <1 to compare with linear sim )
 
 leg = char({'.......................'});
 
@@ -129,7 +129,7 @@ for i = 2:iter+1
     poles = [ -i*.5; -i*.75; -i*1.25 ];
     k = place(A, B, poles);
   else
-    k = placa(A, B, [ -5; -6; -7 ]);
+    k = place(A, B, [ -3; -5; -8 ]);
   end
 
   %-----simulation of reduced state system, eta_dot, using ode45-----------
@@ -182,10 +182,12 @@ for i = 2:iter+1
   %marker size for linear simulation
   markerZ = 10;
   
-  %generating legends for iterations >1
-  str=sprintf('[ \\ %.2f \\ \\ %.2f \\ \\ %.2f \\ ]',...
-                 poles(1),  poles(2),  poles(3));
-  leg(i,1:length(str))=str;
+  %generating legends for iterations > 1
+  if iter > 1
+    str=sprintf('[ \\ %.2f \\ \\ %.2f \\ \\ %.2f \\ ]',...
+                   poles(1),  poles(2),  poles(3));
+    leg(i,1:length(str))=str;
+  end
   
   %plotting results
   subplot(3,1,1), plot(t, eta1, 'linewidth', 1.5)
