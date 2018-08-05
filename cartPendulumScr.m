@@ -3,42 +3,107 @@ clear all; close all; clc                                                  %#ok<
 %change path to directory containing the project files
 cd ~/syncDrive/uni/9thSem/project/p9CartPendulumMatlab
 
-%set LaTeX as default interpreter
-set( groot, 'defaultAxesTickLabelInterpreter',      'latex' );
-set( groot, 'defaultLegendInterpreter',             'latex' );
-set( groot, 'defaultTextInterpreter',               'latex' );
-set( groot, 'defaultColorbarTickLabelInterpreter',  'latex' );
-set( groot, 'defaultPolaraxesTickLabelInterpreter', 'latex' );
-set( groot, 'defaultTextarrowshapeInterpreter',     'latex' );
-set( groot, 'defaultTextboxshapeInterpreter',       'latex' );
+run('latexDefaults.m')
 
-m   = 4+.100+.075+.026;    % .050   *    mass of pendulum             [kg]
-M   = 5.273;             %       **    mass of cart                 [kg]
-l   = 0.3348;            %        *    length                       [m]
-g   = 9.82;              %             gravitational acceleration   [m s^-2]
+run('initPendulum.m')
 
-C_l = (3.021 + 2.746)/2; %       **    linear coulomb friction      [kg m s^-2]   or [N]
-V_l = (1.937 + 1.422)/2; %       **    linear viscous friction      [kg s^-1]     or [N m^-1 s]
+%initial conditions for ode45
+theta_0          = pi/2;
+x_0              = 0;
+theta_dot_0      = 0;
+x_dot_0          = 0;
 
-C_r =  4e-3;             %       **    rotational coulomb friction  [kg m^2 s^-2] or [N m]
-V_r = .4e-3;             %       **    rotational viscous friction  [kg m^2 s^-1] or [N m s]
+%sample time and final time [s]
+Ts = .01;
+T_final = 12;
 
-k_tan = 250;
+%initialization for ode45
+tspan = 0:Ts:T_final;
+init  = [ theta_0 x_0 theta_dot_0 x_dot_0 ];
 
-%reduced notation
-a = m*l/(M+m);
-b = 1/(M+m);
-c = g/l;
-d = 1/l;
-e = 1/(m*(l^2));
+%control input
+f = 0;
 
-theta_init = .1;
+%lowering relative tollerence (default 1e-3) to avoid drifting along x
+options = odeset('RelTol',1e-7);
 
+%simulating system using ode45
+[t, q] = ode45( @(t,q)                                    ...
+                simOdeFun( t,q, f, m, M, l, g, k_tan,     ...
+                           b_p_c, b_p_v, b_c_c, b_c_v ),  ...
+                tspan, init, options                      );
+
+%assigning results of ode45 simulation
+theta         = q(:,1);
+x             = q(:,2);
+theta_dot     = q(:,3);
+x_dot         = q(:,4);
+
+%initializing 2nd derivatives
+theta_dot_dot = zeros(size(t));
+x_dot_dot     = zeros(size(t));
+
+%calculating/simulating 2nd derivatives
+for i = 1:length(t)
+  [ ~, theta_dot_dot(i), x_dot_dot(i) ] = simOdeFun( t(i), q(i,:), f,   ...
+                                                     m, M, l, g, k_tan, ...
+                                                     b_p_c, b_p_v,      ...
+                                                     b_c_c, b_c_v       );
+end
+
+%-----plotting results of simulation using ode45---------------------------
+
+subplot(3,2,1), plot(t, x, 'linewidth', 1.5)
+hold on
+title('$x$')
+grid on, grid minor
+
+subplot(3,2,2), plot(t, theta, 'linewidth', 1.5)
+hold on
+grid on, grid minor
+title('$\theta$')
+
+subplot(3,2,3), plot(t, x_dot, 'linewidth', 1.5)
+hold on
+grid on, grid minor
+title('$\dot{x}$')
+
+subplot(3,2,4), plot(t, theta_dot, 'linewidth', 1.5)
+hold on
+grid on, grid minor
+title('$\dot{\theta}$')
+
+subplot(3,2,5), plot(t, x_dot_dot, 'linewidth', 1.5)
+hold on
+grid on, grid minor
+title('$\ddot{x}$')
+
+subplot(3,2,6), plot(t, theta_dot_dot, 'linewidth', 1.5)
+hold on
+grid on, grid minor
+title('$\ddot{\theta}$')
+
+%simulating using simulink
 sim('cartPendulumModel.slx')
 
+%assigning results of simulation using simulink
+t_sl             = theta_sl.time;
+theta_sl         = theta_sl.data;
+x_sl             = x_sl.data;
+theta_dot_sl     = theta_dot_sl.data;
+x_dot_sl         = x_dot_sl.data;
+theta_dot_dot_sl = theta_dot_dot_sl.data;
+x_dot_dot_sl     = x_dot_dot_sl.data;
 
-process='Senstools';
+%-----adding simulink results to plots for comparrison---------------------
 
-par = [ C_r
-        V_r ];
+subplot(3,2,1), plot(t_sl, x_sl,             '.', 'markersize', 5)
+subplot(3,2,2), plot(t_sl, theta_sl,         '.', 'markersize', 5)
+subplot(3,2,3), plot(t_sl, x_dot_sl,         '.', 'markersize', 5)
+subplot(3,2,4), plot(t_sl, theta_dot_sl,     '.', 'markersize', 5)
+subplot(3,2,5), plot(t_sl, x_dot_dot_sl,     '.', 'markersize', 5)
+subplot(3,2,6), plot(t_sl, theta_dot_dot_sl, '.', 'markersize', 5)
+
+
+
 
