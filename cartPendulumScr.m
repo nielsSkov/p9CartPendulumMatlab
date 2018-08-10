@@ -8,14 +8,14 @@ run('latexDefaults.m')
 run('initPendulum.m')
 
 %initial conditions for ode45
-theta_0          = pi/2;
+theta_0          = 0.01;
 x_0              = 0;
 theta_dot_0      = 0;
 x_dot_0          = 0;
 
 %sample time and final time [s]
 Ts = .01;
-T_final = 12;
+T_final = 2;
 
 %initialization for ode45
 tspan = 0:Ts:T_final;
@@ -29,7 +29,7 @@ options = odeset('RelTol',1e-7);
 
 %simulating system using ode45
 [t, q] = ode45( @(t,q)                                    ...
-                simOdeFun( t,q, f, m, M, l, g, k_tan,     ...
+                simOdeFun( t,q, m, M, l, g, k_tan,        ...
                            b_p_c, b_p_v, b_c_c, b_c_v ),  ...
                 tspan, init, options                      );
 
@@ -45,8 +45,8 @@ x_dot_dot     = zeros(size(t));
 
 %calculating/simulating 2nd derivatives
 for i = 1:length(t)
-  [ ~, theta_dot_dot(i), x_dot_dot(i) ] = simOdeFun( t(i), q(i,:), f,   ...
-                                                     m, M, l, g, k_tan, ...
+  [ ~, theta_dot_dot(i), x_dot_dot(i) ] = simOdeFun( t(i), q(i,:), m, M,...
+                                                     l, g, k_tan,       ...
                                                      b_p_c, b_p_v,      ...
                                                      b_c_c, b_c_v       );
 end
@@ -83,6 +83,7 @@ hold on
 grid on, grid minor
 title('$\ddot{\theta}$')
 
+if 0
 %simulating using simulink
 sim('cartPendulumModel.slx')
 
@@ -103,7 +104,7 @@ subplot(3,2,3), plot(t_sl, x_dot_sl,         '.', 'markersize', 5)
 subplot(3,2,4), plot(t_sl, theta_dot_sl,     '.', 'markersize', 5)
 subplot(3,2,5), plot(t_sl, x_dot_dot_sl,     '.', 'markersize', 5)
 subplot(3,2,6), plot(t_sl, theta_dot_dot_sl, '.', 'markersize', 5)
-
+end
 
 
 

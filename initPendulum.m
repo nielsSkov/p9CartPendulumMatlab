@@ -3,6 +3,8 @@ M   = 5.273;             %       **    mass of cart                 [kg]
 l   = 0.3348;            %        *    length                       [m]
 g   = 9.82;              %             gravitational acceleration   [m s^-2]
 
+r = 0.028;               %             radius of pulley             [m]
+
 b_c_c = (3.021 + 2.746)/2; %       **    cart coulomb friction      [kg m s^-2]   or [N]
 b_c_v = (1.937 + 1.422)/2; %       **    cart viscous friction      [kg s^-1]     or [N m^-1 s]
 
