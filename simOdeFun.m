@@ -21,7 +21,7 @@ function [ q_dot, theta_dot_dot, x_dot_dot, i_a ] =                     ...
   %controller
   epsilon = 0.03;
   beta_0 = .1;
-  rho = 13.7902; %                      for theta_init 0.05 --> 11.4815;
+  rho = 15.1776; %                      for theta_init 0.05 --> 11.4815;
   beta = rho + beta_0;
   k = [ -12.2200  8.0510  20.1040 ];
   s = x3 + k(1)*x2 + k(2)*(0.33*x3 - 1.0*x4*cos(x1)) + k(3)*x1;

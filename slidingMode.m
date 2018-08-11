@@ -75,7 +75,7 @@ rho = -rho_neg;
 
 epsilon = 0.03
 
-beta_0 = 2
+beta_0 = .1
 
 beta = rho + beta_0
 
@@ -113,7 +113,7 @@ ia_max     = 4.58; % [A]
 rho_max    = ia_max*k_tau/r - beta_0
 theta_max  = theta_init(rho_bound>=rho_max-.1 & rho_bound<=rho_max+.1)
 
-figure;
+chooseRho_h = figure;
 [AX, rho, ia] = plotyy( theta_init, rho_bound, theta_init, abs(i_a_bound) );
 set(rho, 'LineWidth', 1.4 )
 set(ia, 'LineWidth', 1.4 )
@@ -136,7 +136,7 @@ set(AX(1),...
     'Xgrid', 'on',...
     'Ygrid', 'on',...
     'XMinorGrid', 'on',...
-    'YMinorGrid', 'on',...
+    'YMinorGrid', 'off',...
     'ytick', (0:5:25),...
     'YLim', [ 0 25],...
     'XLim', [ .02 .1 ],...
@@ -150,7 +150,7 @@ set(AX(1),...
 %setting options for degree axis
 set(AX(2),...
     'Xgrid', 'off',...
-    'Ygrid', 'off',...
+    'Ygrid', 'on',...
     'XMinorGrid', 'off',...
     'YMinorGrid', 'off',...
     'ytick', ( 0:1:7 ),...
@@ -161,111 +161,31 @@ set(AX(2),...
     'GridAlpha', .6)
 
 %adding axes labels
-xlabel('$\theta_{init}$')
-ylabel(AX(1), '$|\varrho(\mathbf{\eta},\xi)|$')
-ylabel(AX(2), '$|i_{a,max}|$')
+xlabel('$\theta_\mathbf{init}$ [rad]')
+ylabel(AX(1), '$\varrho(\mathbf{\eta},\xi)$')
+ylabel(AX(2), '$|i_{a,\mathrm{peak}}|$ [A]')
 
 %adding legend
-legend('$|\varrho(\mathbf{\eta},\xi)|$', '$|i_{a,max}|$', 'Location', 'southeast' )
-
-
-% 
-% b = figure;
-% [AX, rad1, deg1] = plotyy(time,rad,time,deg);
-% 
-% hold on;%------------ PLOTTING REFFERENCE LINES ---------------------------
-% 
-% YminRad = (Ymin - equVolt) * resRadVolt;
-% plot(AX(1), time, YminRad,...
-% 'linestyle', '--', 'linewidth', 1.2, 'color', '[ .2 .2 .2 ]');
-% 
-% YmaxRad = (Ymax - equVolt) * resRadVolt;
-% plot(AX(1), time, YmaxRad,...
-% 'linestyle', '--', 'linewidth', 1.2, 'color', 'r');
-% 
-% YequRad = (Yequ - equVolt) * resRadVolt;
-% plot(AX(1), time, YequRad,...
-% 'linestyle', '--', 'linewidth', 1.2, 'color', '[ 0 .6 0 ]');
-% 
-% YmiddleRad = (Ymiddle - equVolt) * resRadVolt;
-% plot(AX(1), time, YmiddleRad,...
-% 'linestyle', '--', 'linewidth', 1.2, 'color', '[ .6 0 .6 ]');
-% 
-% hold off;%-----------------------------------------------------------------
-% 
-% %% ----------------------- PLOT SETTINGS ----------------------------------
-% 
-% set(rad1,'LineWidth', 1.4 )
-% 
-% %setting options for radian axis
-% set(AX(1),...
-%     'Xgrid', 'on',...
-%     'Ygrid', 'on',...
-%     'XMinorGrid', 'on',...
-%     'YMinorGrid', 'on',...
-%     'ytick', (-.9:.1:.9),...
-%     'YLim', [ -.785395694 .95992832 ],...     <-- Crummy allignment of
-%     'XLim', [ 0  5 ],...                          the two graphs, by
-%     'GridLineStyle',':',...                       moving the radian graph
-%     'GridColor', 'k',...
-%     'GridAlpha', .6)
-% 
-% %turning off degree plot since it is now alligned with the radian plot
-% set(deg1,'Visible','off')
-% 
-% %setting options for degree axis
-% set(AX(2),...
-%     'Xgrid', 'off',...
-%     'Ygrid', 'off',...
-%     'XMinorGrid', 'off',...
-%     'YMinorGrid', 'off',...
-%     'ytick', (-50:5:50),...
-%     'YLim', [ -45 55 ],...
-%     'XLim', [ 0  5 ],...
-%     'GridLineStyle', ':',...
-%     'GridColor', 'k',...
-%     'GridAlpha', .6)
-% 
-% %adding title and axes labels
-% title('Angle Range of Cubli')
-% xlabel('Time (s)')
-% ylabel(AX(1), 'Angular Position (rad)')
-% ylabel(AX(2), 'Angular Position (^\circ)')
-% 
-% %adding legend
-% legend('Angular movement',...
-%        'Lower limmit',...
-%        'Upper limmit',...
-%        'Equlibrium point',...
-%        'Mid-range',...
-%        'Location', 'northwest' )
+legend( [ rho, ia ], '$\varrho(\mathbf{\eta},\xi)$', '$|i_{a,\mathrm{peak}}|$', 'Location', 'southeast' )
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+%remember to float the windows before saving (for consistent scale)
+if 0  
+  figurePath1='~/syncDrive/uni/9thSem/project/p9CartPendulumReport/figures/Original/';                 %#ok<UNRCH>
+  figurePath2='~/syncDrive/uni/9thSem/project/p9CartPendulumReport/figures/';
+  fileTypeOrig="fig";
+  
+  for jj = 1:1
+    switch jj
+    case 1
+      figHandle = chooseRho_h;
+      fileName='chooseRho';
+      saveFig(figHandle,fileName,fileTypeOrig,figurePath1,figurePath2, 0);
+    end
+  end
+end
 
 
 

@@ -8,7 +8,7 @@ run('latexDefaults.m')
 run('initPendulum.m')
 
 %initial conditions for ode45
-theta_0          = 0.06;
+theta_0          = 0.066;
 x_0              = 0;
 theta_dot_0      = 0;
 x_dot_0          = 0;
