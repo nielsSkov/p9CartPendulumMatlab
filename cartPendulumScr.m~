@@ -8,7 +8,7 @@ run('latexDefaults.m')
 run('initPendulum.m')
 
 %initial conditions for ode45
-theta_0          = 0.06;
+theta_0          = 0.14;
 x_0              = 0;
 theta_dot_0      = 0;
 x_dot_0          = 0;
@@ -28,10 +28,10 @@ f = 0;
 options = odeset('RelTol',1e-7);
 
 %simulating system using ode45
-[t, q] = ode45( @(t,q)                                        ...
-                simOdeFun( t,q, m, M, l, g, k_tan, r, k_tau,  ...
-                           b_p_c, b_p_v, b_c_c, b_c_v ),      ...
-                tspan, init, options                          );
+[t, q] = ode45( @(t,q)                                    ...
+                simOdeFun( t,q, m, M, l, g, k_tan,        ...
+                           b_p_c, b_p_v, b_c_c, b_c_v ),  ...
+                tspan, init, options                      );
 
 %assigning results of ode45 simulation
 theta         = q(:,1);
@@ -39,17 +39,17 @@ x             = q(:,2);
 theta_dot     = q(:,3);
 x_dot         = q(:,4);
 
-%initializing 2nd derivatives and amature current
+%initializing 2nd derivatives
 theta_dot_dot = zeros(size(t));
 x_dot_dot     = zeros(size(t));
-i_a           = zeros(size(t));
 
 %calculating/simulating 2nd derivatives
 for i = 1:length(t)
-  [ ~, theta_dot_dot(i), ...
-       x_dot_dot(i),     ...
-       i_a(i) ] = simOdeFun( t(i), q(i,:), m, M, l, g, k_tan, r, k_tau, ...
-                                           b_p_c, b_p_v, b_c_c, b_c_v    );
+  [ ~, theta_dot_dot(i), x_dot_dot(i), i_a ] = simOdeFun( t(i), q(i,:), ...
+                                                   m, M, l, g,...
+                                                   k_tan, r,...
+                                                   b_p_c, b_p_v,        ...
+                                                   b_c_c, b_c_v         );
 end
 
 %-----plotting results of simulation using ode45---------------------------
@@ -83,12 +83,6 @@ subplot(3,2,6), plot(t, theta_dot_dot, 'linewidth', 1.5)
 hold on
 grid on, grid minor
 title('$\ddot{\theta}$')
-
-figure
-plot(t, i_a, 'linewidth', 1.5)
-hold on
-grid on, grid minor
-title('$\i_a$')
 
 if 0
 %simulating using simulink

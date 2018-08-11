@@ -13,24 +13,23 @@ function [ q_dot, theta_dot_dot, x_dot_dot, i_a ] =                     ...
   x3 = theta_dot;
   x4 = x_dot;
   
-%   a = m*(l^2);
-%   c = m*l;
-%   d = M+m;
-%   e = m*g*l;
+  a = m*(l^2);
+  c = m*l;
+  d = M+m;
+  e = m*g*l;
   
   %controller
   epsilon = 0.03;
-  beta_0 = .1;
-  rho = 13.7902; %                      for theta_init 0.05 --> 11.4815;
+  beta_0 = 2;
+  rho = 90;
   beta = rho + beta_0;
   k = [ -12.2200  8.0510  20.1040 ];
   s = x3 + k(1)*x2 + k(2)*(0.33*x3 - 1.0*x4*cos(x1)) + k(3)*x1;
   u = -min( 1, max(-1, (1/epsilon)*s))*beta;
   
-  %actuation saturation
-%   if abs(u*r/k_tau) > 5
-%     u = sign(u)*5*k_tau/r;
-%   end
+  if u*r/k_tau > 5
+    u = 5;
+  end
   
 %   
 %   

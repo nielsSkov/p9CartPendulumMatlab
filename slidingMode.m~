@@ -110,8 +110,8 @@ for i = 1:iter
 end
 
 ia_max     = 4.58; % [A]
-rho_max    = ia_max*k_tau/r - beta_0
-theta_max  = theta_init(rho_bound>=rho_max-.1 & rho_bound<=rho_max+.1)
+theta_max  = 0.06;
+rho_max    = ia_max*k_tau/r - beta_0;
 
 figure;
 [AX, rho, ia] = plotyy( theta_init, rho_bound, theta_init, abs(i_a_bound) );
@@ -126,10 +126,8 @@ line_ia_max = ones(size(theta_span))*ia_max;
 plot(AX(2), theta_span, line_ia_max, 'linestyle', ':', 'linewidth', 1.5, 'color', '[ .8 0 0 ]');
 
 theta_span = theta_init(theta_init<=theta_max & theta_init>=0.02);
-line_rho_max = ones(size(theta_span))*rho_max;
-plot(AX(1), theta_span, line_rho_max, 'linestyle', ':', 'linewidth', 1.5, 'color', '[ 0 0 .8 ]');
-
-plot(AX(2), [theta_max theta_max], [0 ia_max]);
+line_ia_max = ones(size(theta_span))*rho_max;
+plot(AX(1), theta_init, line5, 'linestyle', ':', 'linewidth', 1.5, 'color', '[ 0 0 .8 ]');
 
 %setting options for radian axis
 set(AX(1),...

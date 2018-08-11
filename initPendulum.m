@@ -13,6 +13,8 @@ b_p_v = .4e-3;             %       **    pendulum viscous friction  [kg m^2 s^-1
 
 k_tan = 250;
 
+k_tau = 93.4e-3;  %[N m A^-1]
+
 %reduced notation
 % a = m*l/(M+m);
 % b = 1/(M+m);
