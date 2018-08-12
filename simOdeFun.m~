@@ -21,7 +21,7 @@ function [ q_dot, theta_dot_dot, x_dot_dot, i_a ] =                     ...
   %controller
   epsilon = 0.03;
   beta_0 = .1;
-  rho = 15.1776;
+  rho = 5.1776;
   beta = rho + beta_0;
   
   %wrong
@@ -29,20 +29,15 @@ function [ q_dot, theta_dot_dot, x_dot_dot, i_a ] =                     ...
   %s = x3 + k(1)*x2 + k(2)*(0.33*x3 - 1.0*x4*cos(x1)) + k(3)*x1;
   
   %k = [ -12.2200    8.1755   20.3620 ];
-  %k = [ -43.4282   18.9887   39.3900 ];
-  %k = [ -3.8126    3.7749   12.2335 ];
-  k = [ -0.6110    1.1586    6.2939 ]; %lead  poles in [ -1 -2 -3 ]
   %k = [ -5.9668    5.0250   14.6870 ];
   
-  %PREVIOUS GROUP DESIGN
-  %epsilon = 0.04;
-  %beta = 7;
-  %k = [ -7.34  19.8  -1.93  ];
-  %s = x3 + k(1)*x2 + k(2)*x1 + k(3)*( x4*cos(x1)/l - x3 );
+  %from previous group
+  beta = 10;
+  k = [ -7.34  19.08  -1.93  ];
+  s = x3 + k(1)*x2 + k(2)*x1 + k(3)*( x4*cos(x1)/l - x3 );
   
-  s = x3 + k(1)*x2 + k(3)*x1 + k(2)*(0.3348*x3 - x4*cos(x1));
+  %s = x3 + k(1)*x2 + k(3)*x1 + k(2)*(0.3348*x3 - x4*cos(x1));
   u = -min( 1, max(-1, (1/epsilon)*s))*beta;
-  %u = -beta*sign(s);
   
   %actuation saturation
 %   if abs(u*r/k_tau) > 5

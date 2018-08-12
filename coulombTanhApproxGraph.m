@@ -45,7 +45,7 @@ if 0
     case 1
       figHandle = tanhApprox_h;
       fileName='tanhApprox';
-      saveFig(figHandle,fileName,fileTypeOrig,figurePath1,figurePath2);
+      saveFig(figHandle,fileName,fileTypeOrig,figurePath1,figurePath2,0);
     end
   end
 end

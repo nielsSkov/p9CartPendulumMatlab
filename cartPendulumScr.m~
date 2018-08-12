@@ -8,21 +8,21 @@ run('latexDefaults.m')
 run('initPendulum.m')
 
 %initial conditions for ode45
-theta_0          = 0.203;
+theta_0          = 0.2;
 x_0              = 0;
 theta_dot_0      = 0;
 x_dot_0          = 0;
 
 %visualize initial values
-% clear all; close all; clc;
-% alpha = pi/2; x2=0+(cos(alpha));
-% y2=0+(sin(alpha));
-% plot([0 x2],[0 y2]);
-% hold on; clear all;
-% alpha = pi/2+.77; x2=0+(cos(alpha));
-% y2=0+(sin(alpha));
-% plot([0 x2],[0 y2]);
-% axis equal
+clear all; close all; clc;
+alpha = pi/2; x2=0+(cos(alpha));
+y2=0+(sin(alpha));
+plot([0 x2],[0 y2]);
+hold on; clear all;
+alpha = pi/2+.77; x2=0+(cos(alpha));
+y2=0+(sin(alpha));
+plot([0 x2],[0 y2]);
+axis equal
 
 %sample time and final time [s]
 Ts = .01;

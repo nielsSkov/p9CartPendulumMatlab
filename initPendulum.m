@@ -1,4 +1,4 @@
-m   = 4+.100+.075+.026;  % .050   *    mass of pendulum             [kg]
+m   = .100+.075+.026;    % .050   *    mass of pendulum             [kg]
 M   = 5.273;             %       **    mass of cart                 [kg]
 l   = 0.3348;            %        *    length                       [m]
 g   = 9.82;              %             gravitational acceleration   [m s^-2]
@@ -15,6 +15,12 @@ k_tan = 250;
 
 k_tau = 93.4e-3;  %[N m A^-1]
 
+K = [ -0.6110  1.1586  6.2939 ]; % poles in [ -1 -2 -3 ]
+
+k1 = K(1);
+k2 = K(2);
+k3 = K(3);
+
 %reduced notation
 % a = m*l/(M+m);
 % b = 1/(M+m);
@@ -22,9 +28,9 @@ k_tau = 93.4e-3;  %[N m A^-1]
 % d = 1/l;
 % e = 1/(m*(l^2));
 
-a = m*(l^2);
-c = m*l;
-d = M+m;
-e = m*g*l;
+% a = m*(l^2);
+% c = m*l;
+% d = M+m;
+% e = m*g*l;
 
-theta_0 = pi/2;
+%theta_0 = pi/2;

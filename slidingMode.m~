@@ -9,7 +9,7 @@ run('reducedOrderSystem.m')
 %K = place(A, B, [ -3; -5; -8 ]);
 %wrong:
 %K = [ -12.2200  8.0510  20.1040 ];
-%K = [ -12.2200    8.1755   20.3620 ];
+K = [ -12.2200    8.1755   20.3620 ];
 
 syms k1 k2 k3 u
 syms eta1 eta2 eta3 xi
@@ -42,6 +42,10 @@ rho = (k*f_a + f_b)/g_b;
 
 run('initPendulum.m')
 
+k1 = K(1);
+k2 = K(2);
+k3 = K(3);
+
 %updating omega(x) with numerical values
 rho = subs(rho);
 s = subs(s);
@@ -53,7 +57,7 @@ s = vpa(simplify(s),2)
 close all
 deg_bound = 5;
 
-angle_bound = 0.2030; %  deg_bound*(2*pi)/100;
+angle_bound = 0.06; %  deg_bound*(2*pi)/100;
 aVel_bound  = 0;
 x_bound     = 0;
 xVel_bound  = 0;
@@ -92,7 +96,7 @@ x_max
 
 
 
-iter  = 250;
+iter  = 100;
 res   = 0.001;
 start = 0.01;
 
@@ -111,7 +115,7 @@ end
 
 ia_max     = 4.58; % [A]
 rho_max    = ia_max*k_tau/r - beta_0
-theta_max  = theta_init(rho_bound>=rho_max-.04 & rho_bound<=rho_max+.04)
+theta_max  = theta_init(rho_bound>=rho_max-.2 & rho_bound<=rho_max+.2)
 
 %-----PLOTTING-------------------------------------------------------------
 
@@ -123,7 +127,7 @@ set(ia, 'LineWidth', 1.4 )
 hold(AX(1));
 hold(AX(2));
 
-theta_span = theta_init(theta_init<=.25 & theta_init>=theta_max);
+theta_span = theta_init(theta_init<=.1 & theta_init>=theta_max);
 line_ia_max = ones(size(theta_span))*ia_max;
 plot(AX(2), theta_span, line_ia_max, 'linestyle', ':', 'linewidth', 1.5, 'color', '[ .8 0 0 ]');
 
@@ -133,8 +137,6 @@ plot(AX(1), theta_span, line_rho_max, 'linestyle', ':', 'linewidth', 1.5, 'color
 
 plot(AX(2), [theta_max theta_max], [0 ia_max]);
 
-limx = [ .02 0.25 ];
-
 %setting options for radian axis
 set(AX(1),...
     'Xgrid', 'on',...
@@ -143,7 +145,7 @@ set(AX(1),...
     'YMinorGrid', 'off',...
     'ytick', (0:5:25),...
     'YLim', [ 0 25],...
-    'XLim', limx,...
+    'XLim', [ .02 .055 ],...
     'GridLineStyle',':',...
     'GridColor', 'k',...
     'GridAlpha', .6)
@@ -159,7 +161,7 @@ set(AX(2),...
     'YMinorGrid', 'off',...
     'ytick', ( 0:1:7 ),...
     'YLim', [ 0 7 ],...
-    'XLim', limx,...
+    'XLim', [ .02 .055 ],...
     'GridLineStyle', ':',...
     'GridColor', 'k',...
     'GridAlpha', .6)
