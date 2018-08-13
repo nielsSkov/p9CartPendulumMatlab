@@ -36,7 +36,13 @@ xi_dot = f_b + g_b*u;
 
 % s_dot = xi_dot + k*eta_dot;
 
-rho = (k*f_a + f_b)/g_b;
+%rho including g_b in bound
+%rho = (k*f_a + f_b)/g_b;
+
+%rho not including g_b in bound
+rho = k*f_a + f_b
+
+g_b_inv = 1/g_b
 
 %%
 
@@ -46,14 +52,14 @@ run('initPendulum.m')
 rho = subs(rho);
 s = subs(s);
 
-rho = vpa(simplify(rho),2)
-s = vpa(simplify(s),2)
+rho = vpa(simplify(rho),2);
+s = vpa(simplify(s),2);
 
 %%
 close all
 deg_bound = 5;
 
-angle_bound = 0.2030; %  deg_bound*(2*pi)/100;
+angle_bound = 0.1; %  deg_bound*(2*pi)/100;
 aVel_bound  = 0;
 x_bound     = 0;
 xVel_bound  = 0;
@@ -110,8 +116,10 @@ for i = 1:iter
 end
 
 ia_max     = 4.58; % [A]
-rho_max    = ia_max*k_tau/r - beta_0
-theta_max  = theta_init(rho_bound>=rho_max-.04 & rho_bound<=rho_max+.04)
+%rho_max    = (ia_max*k_tau/r - beta_0);
+%theta_max  = theta_init(rho_bound>=rho_max-.1 & rho_bound<=rho_max+.1)
+theta_max  = theta_init(i_a_bound>=-ia_max-.05 & i_a_bound<=-ia_max+.05);
+rho_max    = (ia_max*k_tau/r - beta_0)/(l*(M + m - m*cos(theta_max)^2))/cos(theta_max);
 
 %-----PLOTTING-------------------------------------------------------------
 
@@ -133,7 +141,7 @@ plot(AX(1), theta_span, line_rho_max, 'linestyle', ':', 'linewidth', 1.5, 'color
 
 plot(AX(2), [theta_max theta_max], [0 ia_max]);
 
-limx = [ .02 0.25 ];
+limx = [ .02 0.15 ];
 
 %setting options for radian axis
 set(AX(1),...

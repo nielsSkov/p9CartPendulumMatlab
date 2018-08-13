@@ -39,7 +39,7 @@ function [ q_dot, theta_dot_dot, x_dot_dot, i_a ] =                     ...
   %beta = 7;
   %k = [ -7.34  19.8  -1.93  ];
   %s = x3 + k(1)*x2 + k(2)*x1 + k(3)*( x4*cos(x1)/l - x3 );
-  
+
   s = x3 + k(1)*x2 + k(3)*x1 + k(2)*(0.3348*x3 - x4*cos(x1));
   u = -min( 1, max(-1, (1/epsilon)*s))*beta;
   %u = -beta*sign(s);

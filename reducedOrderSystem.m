@@ -176,11 +176,14 @@ end
 for i = 2:iter+1
   %control gain
   if iter > 1
-    %poles = [ -i*.5; -i*.75; -i*1.25 ];
-    poles = [ -i*1/3; -i*2/3; -i*3/3 ];
+    poles = [ -i*.5; -i*.75; -i*1.25 ];
+    %poles = [ -i*1/3; -i*2/3; -i*3/3 ];
     k = place(A, B, poles);
   else
-    k = place(A, B, [ -1; -2; -3 ]);
+    %k = place(A, B, [ -6 -7 -8 ])  %most on x pos
+    k = place(A, B, [ -5 -6 -8 ])
+    %k = place(A, B, [ -3 -7 -8 ])
+    %k = place(A, B, [ -1; -2; -3 ]);
   end
 
   %-----simulation of reduced state system, eta_dot, using ode45-----------
