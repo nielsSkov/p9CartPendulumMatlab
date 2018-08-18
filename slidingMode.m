@@ -118,8 +118,8 @@ end
 ia_max     = 4.58; % [A]
 %rho_max    = (ia_max*k_tau/r - beta_0);
 %theta_max  = theta_init(rho_bound>=rho_max-.1 & rho_bound<=rho_max+.1)
-theta_max  = theta_init(i_a_bound>=-ia_max-.05 & i_a_bound<=-ia_max+.05);
-rho_max    = (ia_max*k_tau/r - beta_0)/(l*(M + m - m*cos(theta_max)^2))/cos(theta_max);
+theta_max  = theta_init(i_a_bound>=-ia_max-.04 & i_a_bound<=-ia_max+.04)
+rho_max    = (ia_max*k_tau/r - beta_0)/(l*(M + m - m*cos(theta_max)^2))/cos(theta_max)
 
 %-----PLOTTING-------------------------------------------------------------
 
@@ -185,8 +185,8 @@ legend( [ rho, ia ], '$\varrho(\mathbf{\eta},\xi)$', '$|i_{a,\mathrm{peak}}|$', 
 
 %remember to float the windows before saving (for consistent scale)
 if 0  
-  figurePath1='~/syncDrive/uni/9thSem/project/p9CartPendulumReport/figures/Original/';                 %#ok<UNRCH>
-  figurePath2='~/syncDrive/uni/9thSem/project/p9CartPendulumReport/figures/';
+  figurePath1='~/syncDrive/uni/9thSem/project/p9CartPendulumReport/reportCorrections/figures/Original/';                 %#ok<UNRCH>
+  figurePath2='~/syncDrive/uni/9thSem/project/p9CartPendulumReport/reportCorrections/figures/';
   fileTypeOrig="fig";
   
   for jj = 1:1

@@ -158,14 +158,14 @@ leg = char({'.......................'});
 
 %setting axis limits for single iteration plot
 limx_1 = [0 5];
-limy_1 = [-.3 1.5];
+limy_1 = [-.5 2];
 %setting axis limits for many iteration plot
 limx_2 = [0 3];
 limy_2 = [-1 4];
+%limits on/off
+lim = 1;
 
-lim = 0;
-
-for j = 1:1
+for j = 1:2
 if j == 1
   %setting nr of iterations ( >1 to tune pole placement     )
   iter = 1;      %          ( =1 to compare with linear sim )
@@ -176,12 +176,12 @@ end
 for i = 2:iter+1
   %control gain
   if iter > 1
-    poles = [ -i*.5; -i*.75; -i*1.25 ];
+    poles = [ -i*5/7; -i*6/7; -i*8/7 ];
     %poles = [ -i*1/3; -i*2/3; -i*3/3 ];
     k = place(A, B, poles);
   else
     %k = place(A, B, [ -6 -7 -8 ])  %most on x pos
-    k = place(A, B, [ -5 -6 -8 ])
+    k = place(A, B, [ -5 -6 -9 ])
     %k = place(A, B, [ -3 -7 -8 ])
     %k = place(A, B, [ -1; -2; -3 ]);
   end
@@ -325,8 +325,8 @@ end
 
 %remember to float the windows before saving (for consistent scale)
 if 0  
-  figurePath1='~/syncDrive/uni/9thSem/project/p9CartPendulumReport/figures/Original/';                 %#ok<UNRCH>
-  figurePath2='~/syncDrive/uni/9thSem/project/p9CartPendulumReport/figures/';
+  figurePath1='~/syncDrive/uni/9thSem/project/p9CartPendulumReport/reportCorrections/figures/Original/';                 %#ok<UNRCH>
+  figurePath2='~/syncDrive/uni/9thSem/project/p9CartPendulumReport/reportCorrections/figures/';
   fileTypeOrig="fig";
   
   for jj = 1:2
