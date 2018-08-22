@@ -21,7 +21,7 @@ theta_dot_0      = 0;
 x_dot_0          = 0;
 
 %sample time and final time [s]
-Ts = .001;
+Ts = .01;
 T_final = 2;
 
 %initialization for ode45
@@ -45,20 +45,22 @@ theta_dot     = q(:,3);
 x_dot         = q(:,4);
 
 %initializing 2nd derivatives and amature current
-% theta_dot_dot = zeros(size(t));
-% x_dot_dot     = zeros(size(t));
-% i_a           = zeros(size(t));
-% %calculating/simulating 2nd derivatives
-% for i = 1:length(t)
-%   [ ~, theta_dot_dot(i), ...
-%        x_dot_dot(i),     ...
-%        i_a(i) ] = simOdeFun( t(i), q(i,:), m, M, l, g, k_tan, r, k_tau, ...
-%                                            b_p_c, b_p_v, b_c_c, b_c_v, con );
-% end
-% 
-% plot(t, x_dot_dot, 'linewidth', 1.5)
+theta_dot_dot = zeros(size(t));
+x_dot_dot     = zeros(size(t));
+i_a           = zeros(size(t));
+%calculating/simulating 2nd derivatives
+for i = 1:length(t)
+  [ ~, theta_dot_dot(i), ...
+       x_dot_dot(i),     ...
+       i_a(i) ] = simOdeFun( t(i), q(i,:), m, M, l, g, k_tan, r, k_tau, ...
+                                           b_p_c, b_p_v, b_c_c, b_c_v, con );
+end
+figure
+plot(t, x_dot_dot, 'linewidth', 1.5)
+hold on
+plot(t, theta_dot_dot, 'linewidth', 1.5)
 % %xlim([ 0 25 ])
-% grid on, grid minor
+grid on, grid minor
 % xlabel('$t$ [s]')
 % ylabel('$\ddot{x}$ [m$\cdot$ s$^{-2}$]')
 
@@ -69,15 +71,35 @@ x_dot         = q(:,4);
 % t  = x_c.time;
 
 %%
+clear all, close all, clc
+m   = .100+.075+.026;    % .050   *    mass of pendulum             [kg]
+M   = 5.273;             %       **    mass of cart                 [kg]
+l   = 0.3235;            %        *    length                       [m]
+g   = 9.82; 
 
-xp = x -l*sin(theta);
-yp = l*cos(theta);
+m   = m*2;
+M   = M*2;
+l   = l*2;
+g   = 9.82;
+
+theta_init = pi-.000001;
+
+%%
+
+close all
+x = x_c.data./2;
+xp = x_p.data./2;
+yp = y_p.data./2;
+t = x_c.time;
+
+%xp = x -l*sin(theta);
+%yp = l*cos(theta);
 
 %Initializing Animation Figure
 figure
 grid on, grid minor
 axis equal
-axis([ -4 8 -2 2 ])
+axis([ -2 8 -2 2 ])
 hold on
 
 %Drawing obstacles

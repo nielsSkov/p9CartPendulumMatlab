@@ -5,6 +5,7 @@ function [ q_dot, theta_dot_dot, x_dot_dot, i_a ] =                     ...
                                                          b_c_c, b_c_v, con )
  persistent secondTrajec;
  persistent thirdTrajec;
+%  persistent u1;
  persistent xc_dot_dot;
  
  theta         = q(1);
@@ -76,14 +77,33 @@ function [ q_dot, theta_dot_dot, x_dot_dot, i_a ] =                     ...
       theta_0 = pi;
       theta_f = 7*pi/4;
       u = -g*tan(theta_0/2 + theta_f/2)*(M + m);
+       u1 = u;
+       xc_dot_dot1 = -(b_p_v*theta_dot*cos(theta) -...
+                   l*u1 + b_p_c*tanh(k_tan*theta_dot)*cos(theta) +...
+                   b_c_v*l*x_dot + b_c_c*l*tanh(k_tan*x_dot) +...
+                   l^2*m*theta_dot^2*sin(theta) -...
+                   g*l*m*cos(theta)*sin(theta))/(l*(M + m - m*cos(theta)^2));
+  xc_dot_dot = diff([  q(4) xc_dot_dot1 ]);
     elseif ( theta >= 7*pi/4-.2 && x <= 4) || ( secondTrajec == 1 && thirdTrajec == 0 )
-      u = (M+m)*xc_dot_dot
+      %u1 = min(300, max(-300, u1));
+%       u1 = (M+m)*diff([ xc_dot q(4)  ]);
+%       xc_dot_dot = -(b_p_v*theta_dot*cos(theta) -...
+%                    l*u1 + b_p_c*tanh(k_tan*theta_dot)*cos(theta) +...
+%                    b_c_v*l*x_dot + b_c_c*l*tanh(k_tan*x_dot) +...
+%                    l^2*m*theta_dot^2*sin(theta) -...
+%                    g*l*m*cos(theta)*sin(theta))/(l*(M + m - m*cos(theta)^2));
+      u = (M+m)%*xc_dot_dot;
+      %xc_dot_dot = diff([ q(4) xc_dot ]);
+%       if u > 300
+%       return
+%       end
       secondTrajec  = 1;
     elseif x > 4 || ( secondTrajec == 1 && thirdTrajec == 1 )
       theta_0 = 7*pi/4;
       theta_f = pi;
       u = -g*tan(theta_0/2 + theta_f/2)*(M + m);
       thirdTrajec  = 1;
+      xc_dot_dot = 0;
     end
   end
 
@@ -108,9 +128,9 @@ function [ q_dot, theta_dot_dot, x_dot_dot, i_a ] =                     ...
             MM\(F - G - C - B ) ]; % = [ theta_dot_dot
                                    %         x_dot_dot ]
   theta_dot_dot = q_dot(3);
+  theta_dot_dot = xc_dot_dot;
   x_dot_dot     = q_dot(4);
-  
-  xc_dot_dot    = q_dot(4);
-  
+  xc_dot_dot     = q_dot(4);
   i_a = u*r/k_tau;
+  xc_dot = q(4);
 end
